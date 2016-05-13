@@ -59,7 +59,7 @@ class DataSet
      * @param  string $field
      * @return mixed
      */
-    public function guess(Node $node, $field)
+    public function getClosestNeighbor(Node $node, $field)
     {
         $neighbors = $this->nodes;
         $this->calculateDistances($node, $neighbors);
@@ -87,6 +87,33 @@ class DataSet
         }
 
         return $guess['value'];
+    }
+
+    /**
+     * @param  Node   $node
+     * @param  string $field
+     * @return mixed
+     */
+    public function getSortedNeighbors(Node $node, $field, $limit)
+    {
+        $neighbors = $this->nodes;
+        $this->calculateDistances($node, $neighbors);
+
+        $this->sort($neighbors);
+
+        $hits = array();
+
+        /** @var Node[] $nearest */
+        $nearest = array_slice($neighbors, 0, $this->k);
+        foreach ($nearest as $neighbor) {
+            if (!isset($hits[$neighbor->get($field)])) {
+                $hits[$neighbor->get($field)] = 0;
+            }
+
+            $hits[$neighbor->get($field)] += 1;
+        }
+
+        return $hits;
     }
 
     /**

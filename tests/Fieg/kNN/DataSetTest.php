@@ -9,7 +9,7 @@ use Fieg\kNN\Node;
 
 class DataSetTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGuess()
+    public function testGetClosestNeighbor()
     {
         $schema = new \Fieg\kNN\Schema();
         $schema
@@ -34,8 +34,8 @@ class DataSetTest extends \PHPUnit_Framework_TestCase
         $dataset->add(new Node(array('rooms' => 2, 'area' => 700, 'type' => 'flat')));
         $dataset->add(new Node(array('rooms' => 1, 'area' => 900, 'type' => 'flat')));
 
-        $this->assertEquals('flat', $dataset->guess(new Node(array('rooms' => 4, 'area' => 900)), 'type'));
-        $this->assertEquals('house', $dataset->guess(new Node(array('rooms' => 7, 'area' => 900)), 'type'));
-        $this->assertEquals('apartment', $dataset->guess(new Node(array('rooms' => 1, 'area' => 200)), 'type'));
+        $this->assertEquals('flat', $dataset->getClosestNeighbor(new Node(array('rooms' => 4, 'area' => 900)), 'type'));
+        $this->assertEquals('house', $dataset->getClosestNeighbor(new Node(array('rooms' => 7, 'area' => 900)), 'type'));
+        $this->assertEquals('apartment', $dataset->getClosestNeighbor(new Node(array('rooms' => 1, 'area' => 200)), 'type'));
     }
 }
